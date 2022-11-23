@@ -1,8 +1,10 @@
+const { default: mongoose } = require('mongoose');
 const PostMessage = require('../models/postMessage.js')
 
-const getPosts = (req, res, next) => {
+// Get All post
+const getPosts = async (req, res, next) => {
   try{
-     const postMessage = PostMessage.find();
+     const postMessage =await PostMessage.find();
      res.status(201).json(postMessage)
   }
   catch (e){
@@ -11,14 +13,37 @@ const getPosts = (req, res, next) => {
   }
 }
 
-const createPost =(req, res) => {
-    
+// Create a post
+const createPost =async(req, res) => {
+  const post = req.body;
+    try{
+      
+      const newPost = await new PostMessage(post);
+      newPost.save();
+      res.status(201).json(newPost);
+
+    }
+    catch(e){
+      next()
+    }
 }
 
+// Update a post
+const updatePost = async(req,res) => {
+   const {_id} = req.params;
+   const post = req.body;
+   if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post found');
+
+   const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {new: true});
+
+   res.json(updatedPost);
+
+}
 
 
 module.exports ={
   getPosts,
   createPost,
+  updatePost
 
 }
