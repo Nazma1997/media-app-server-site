@@ -30,7 +30,7 @@ const createPost =async(req, res) => {
 
 // Update a post
 const updatePost = async(req,res) => {
-   const { _id} = req.params;
+   const {id:  _id} = req.params;
    const post = req.body;
    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post found');
 
@@ -52,10 +52,25 @@ const deletePost = async(req, res) => {
 
 }
 
+// Update like 
+
+ const likePost = async(req, res) => {
+    const {id: _id} = req.params;
+  
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post found');
+
+    const post = await PostMessage.findById(_id);
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, {likeCount: post.likeCount +1}, {new: true});
+
+    res.json(updatedPost)
+
+}
+
 module.exports ={
   getPosts,
   createPost,
   updatePost,
-  deletePost
+  deletePost,
+  likePost
 
 }
