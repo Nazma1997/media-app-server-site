@@ -6,9 +6,8 @@ const  mongoose = require('mongoose');
 const  cors = require('cors');
 const connectDB = require('./db')
 const app = express();
-
-
 const routes = require('./routes/index');
+
 const PORT = process.env.PORT || 4000
 
 app.use(bodyParser.json({limit: "30mb", extended: true}));
