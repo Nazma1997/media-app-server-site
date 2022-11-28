@@ -9,4 +9,4 @@ router.post('/signUp', userControllers.signUp);
 // router.delete('/:id', postControllers.deletePost);
 // router.patch('/:id/likePost', postControllers.likePost);
 
-module.exports = router
+module.exports = router;
